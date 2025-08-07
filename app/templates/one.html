@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping with Voice Feedback</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('https://static-blog.omniconvert.com/blog/wp-content/uploads/2023/02/28105512/Promoters-Passives-Distractors-webp.webp');
+            background-size: cover;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+            padding: 20px;
+        }
+        .chat-box {
+            border: 1px dashed #b94a4a;
+            padding: 10px;
+            width: 90%;
+            max-width: 400px; 
+            height: 90%;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px; 
+        }
+        .voice-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .voice-button, .stop-button {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            margin: 0 10px;
+        }
+        .voice-button {
+            background-color: #4CAF50; 
+        .stop-button {
+            background-color: #FF4136; 
+        }
+        .feedback {
+            color: black; 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .plot-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class='container'>
+    <div class='row'>
+       
+    </div>
+
+   
+    <div class="chat-box" id="chatBox"></div>
+
+  
+    <div class="voice-buttons">
+        <button class="voice-button" onclick="startRecording()"><i class="fa fa-microphone"></i></button>
+        <button class="stop-button" onclick="stopRecording()"><i class="fa fa-stop"></i></button>
+    </div>
+
+ 
+    <p class="feedback">Hey! Customer, put your feedback here!!!</p>
+
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form id="audioForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="audioFile">Upload Audio File</label>
+                    <input type="file" class="form-control-file" id="audioFile" name="audioFile">
+                </div>
+                <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+            </form>
+        </div>
+    </div>
+    <div id="transcribedText"></div>
+    
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div id="sentimentResult"></div>
+        </div>
+    </div>
+
+        <div class="plot-container">
+            <canvas id="sentimentPlot" width="600" height="400"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        
+      
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+    
+          
+            const formData = new FormData();
+            formData.append('audioFile', document.querySelector('#audioFile').files[0]);
+    
+           
+            const response = await fetch('/analyze_audio', {
+                method: 'POST',
+                body: formData
+            });
+    
+        
+            const data = await response.json();
+            document.getElementById('sentimentResult').innerHTML = `<h4>Sentiment Analysis Result: ${data.sentiment}</h4>`;
+    
+  
+            const plotBase64 = data.plot;
+            const plotImage = new Image();
+            plotImage.onload = function() {
+                const canvas = document.getElementById('sentimentPlot');
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(plotImage, 0, 0, canvas.width, canvas.height);
+            };
+            plotImage.src = 'data:image/png;base64,' + plotBase64;
+        });
+        
+    </script>
+    
+    </body>
+    </html>
+    
+

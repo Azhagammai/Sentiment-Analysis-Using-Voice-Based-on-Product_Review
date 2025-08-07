@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Shopping</title>
+<link rel="stylesheet" href="style.css">
+<link rel='stylesheet' href='css/bootstrap.css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class='navbar navbar-expand-md text-light '>
+        <h1 class='navbar-brand' style='font-size:40'>Heist</h1>
+        <ul class='navbar-nav a1'>
+            <li class='nav-item nav-link ml-4'>Home</li>
+            <li class='nav-item nav-link ml-4'>Feature</li>
+            <li class='nav-item nav-link ml-4'>About</li>
+            <li class='nav-item nav-link ml-4'>Contact</li>
+            <li style='margin-left:118%'><input type='text' placeholder='Search'></li>
+        </ul>
+    </div>
+    <div class='container'>
+        <div class='row mt-5'>
+            <!-- Your existing product cards -->
+        </div>
+
+        <!-- Add a form for uploading audio file -->
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <form action="/analyze_audio" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="audioFile">Upload Audio File</label>
+                        <input type="file" class="form-control-file" id="audioFile" name="audioFile">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Analyze Sentiment</button>
+                    <py-script src="output.py"></py-script>
+                </form>
+            </div>
+        </div>
+
+        <!-- Display sentiment analysis result here -->
+        <div class="row mt-5">
+            <div class="col-md-6 offset-md-3">
+                <div id="sentimentResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript code for handling form submission and displaying result -->
+    <script>
+        // Handle form submission via AJAX
+        document.querySelector('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Create FormData object to send file data
+            const formData = new FormData();
+            formData.append('audioFile', document.querySelector('#audioFile').files[0]);
+
+            // Send POST request to server to analyze audio
+            const response = await fetch('/analyze_audio', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Parse JSON response and display sentiment analysis result
+            const data = await response.json();
+            document.getElementById('sentimentResult').innerHTML = `<p>Sentiment Analysis Result: ${data.sentiment}</p>`;
+        });
+    </script>
+</body>
+</html>
