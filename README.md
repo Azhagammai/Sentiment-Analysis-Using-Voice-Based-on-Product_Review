@@ -65,13 +65,5 @@ Project/
   - **Negative**
   - **Neutral**
 
-## ✍️ Author
 
-- **Name:** Azhagammai M
-- **Project Type:** Mini Project
-- **Domain:** Data Science, Sentiment Analysis
-
-## 📌 License
-
-This project is for educational and academic purposes only.
 
