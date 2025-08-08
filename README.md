@@ -144,3 +144,15 @@ Displayed either in terminal or in the browser (if integrated).
 | `app/static/pics/`                    | UI images used in frontend                            |
 
 ---
+## 📸 snapshot
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/367dbd18-3e7f-4764-a7af-6912d5da0ae6" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1e68cf23-2569-43b0-8e57-da05f49c70d2" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5688f5d2-c197-4a81-a59a-654125f58fb2" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c698683f-052e-4fc4-bc12-642b2ddc3fcb" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/58e05730-5334-4c42-b1c3-0699fa716abf" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/033d005d-880f-42e6-9264-6068c6146a9e" />
+
+
+
+
+
